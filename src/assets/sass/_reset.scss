@@ -1,0 +1,87 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap');
+
+/*
+  👉Com esta definição, iremos resolver: Unificação ou uso de propriedades customizadas, Problemas com fontes, entre outros.
+*/
+:root {
+  --black: #000000;
+  --tipo-principal: 'Open Sans', sans-serif;
+  --tipo-secundaria: 'Roboto';
+}
+
+/* Adaptamos ao modo escuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --black: #000000;
+  }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+img, picture, video, iframe, figure {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    font-size: inherit;
+}
+
+p a {
+    display: inline;
+}
+
+li {
+    list-style-type: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6, p, span, a, strong, blockquote, i, b, u, em {
+    font-size: 1em;
+    font-weight: inherit;
+    font-style: inherit;
+    text-decoration: none;
+    color: inherit;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: "";
+    content: none;
+}
+
+form, input, textarea, select, button, label {
+    font-family: inherit;
+    font-size: inherit;
+    hyphens: auto;
+    display: block;
+}
+
+svg {
+    width: max-content;
+    display: block;
+    fill: currentColor;
+}
+
+/* Configurar a tipografia para toda a web */
+body {
+    height: 100%;
+    font-size: 100%;
+    font-family: var(--tipo-principal);
+    background-color: #F4F4F9;
+    color: var(--black);
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
