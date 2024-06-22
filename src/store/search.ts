@@ -27,12 +27,12 @@ interface Destino {
 
 interface City {
   id: number;
-  state: string;
-  cidade: string,
-  pais: string,
+  estado: string;
+  cidade: string;
+  pais: string;
   cidade_snake_case: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
 export const useSearchStore = defineStore('search', {
@@ -43,10 +43,10 @@ export const useSearchStore = defineStore('search', {
   } => ({
     availableCities: cityList,
     criteria: {} as SearchCriteria,
-    results: hoteisData,
+    results: [],
   }),
   actions: {
-    setAvalableCities (listCity: City[]) {
+    setAvalableCities(listCity: City[]) {
       this.availableCities = listCity;
     },
     setSearchCriteria(criteria: SearchCriteria) {
@@ -56,9 +56,49 @@ export const useSearchStore = defineStore('search', {
       this.results = results;
     },
     async fetchHotels() {
-      const response = hoteisData as Destino[]
-      // Teste 2
-      this.setResults(response);
+      let filteredResults = hoteisData.destinos;
+
+      // Filtrar por destino
+      if (this.criteria.destination) {
+        filteredResults = this.filterByDestination(filteredResults, this.criteria.destination);
+      }
+
+      // Filtrar por fechas
+      if (this.criteria.checkIn && this.criteria.checkOut) {
+        const checkIn = new Date(this.criteria.checkIn);
+        const checkOut = new Date(this.criteria.checkOut);
+        filteredResults = this.filterByDates(filteredResults, checkIn, checkOut);
+      }
+
+      // Filtrar por habitaciones y huéspedes
+      if (this.criteria.rooms && this.criteria.guests) {
+        filteredResults = this.filterByRoomsAndGuests(filteredResults, this.criteria.rooms, this.criteria.guests);
+      }
+
+      this.setResults(filteredResults);
+    },
+    filterByDestination(data: Destino[], destination: string): Destino[] {
+      const lowerDestination = destination.toLowerCase();
+      return data.filter(destino => destino.cidade.toLowerCase() === lowerDestination);
+    },
+    filterByDates(data: Destino[], checkIn: Date, checkOut: Date): Destino[] {
+      return data.map(destino => {
+        const filteredHotels = destino.hoteis.filter(hotel => {
+          const availableDates = hotel.datas_disponiveis.map(date => new Date(date));
+          return availableDates.some(date => date >= checkIn && date <= checkOut);
+        });
+        return { ...destino, hoteis: filteredHotels };
+      }).filter(destino => destino.hoteis.length > 0);
+    },
+    filterByRoomsAndGuests(data: Destino[], rooms: number, guests: number): Destino[] {
+      return data.map(destino => {
+        const filteredHotels = destino.hoteis.filter(hotel => {
+          const canAccommodateRooms = hotel.numero_quartos >= rooms;
+          const canAccommodateGuests = hotel.numero_maximo_hospedes >= guests;
+          return canAccommodateRooms && canAccommodateGuests;
+        });
+        return { ...destino, hoteis: filteredHotels };
+      }).filter(destino => destino.hoteis.length > 0);
     }
   },
 });
