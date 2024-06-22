@@ -4,9 +4,9 @@
       <input v-model="destination" placeholder="Destino" required />
       <input type="date" v-model="checkIn" />
       <input type="date" v-model="checkOut" />
-      <span>Quartos</span>
+      <label>Quartos</label>
       <input type="number" v-model="rooms" placeholder="Quartos" required min="1" />
-      <span>Huespedes</span>
+      <label>Huespedes</label>
       <input type="number" v-model="guests" placeholder="Hóspede" required min="1" />
       <button type="submit">Buscar</button>
     </form>

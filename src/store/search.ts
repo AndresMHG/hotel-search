@@ -43,7 +43,7 @@ export const useSearchStore = defineStore('search', {
   } => ({
     availableCities: cityList,
     criteria: {} as SearchCriteria,
-    results: [] as Destino[],
+    results: hoteisData,
   }),
   actions: {
     setAvalableCities (listCity: City[]) {
