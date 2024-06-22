@@ -1,21 +1,29 @@
 @charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap');
-
-/*
-  👉Com esta definição, iremos resolver: Unificação ou uso de propriedades customizadas, Problemas com fontes, entre outros.
-*/
 :root {
   --black: #000000;
   --tipo-principal: 'Open Sans', sans-serif;
   --tipo-secundaria: 'Roboto';
 }
-
-/* Adaptamos ao modo escuro */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --black: #000000;
-  }
+svg {
+    width: max-content;
+    display: block;
+    fill: currentColor;
 }
+
+body {
+    height: 100%;
+    font-size: 100%;
+    font-family: var(--tipo-principal);
+    background-color: #F4F4F9;
+    color: var(--black);
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$text-color: #333;
 
 * {
     margin: 0;
@@ -56,11 +64,6 @@ h1, h2, h3, h4, h5, h6, p, span, a, strong, blockquote, i, b, u, em {
     color: inherit;
 }
 
-blockquote:before, blockquote:after, q:before, q:after {
-    content: "";
-    content: none;
-}
-
 form, input, textarea, select, button, label {
     font-family: inherit;
     font-size: inherit;
@@ -68,20 +71,72 @@ form, input, textarea, select, button, label {
     display: block;
 }
 
-svg {
-    width: max-content;
-    display: block;
-    fill: currentColor;
+// Mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Configurar a tipografia para toda a web */
-body {
-    height: 100%;
-    font-size: 100%;
-    font-family: var(--tipo-principal);
-    background-color: #F4F4F9;
-    color: var(--black);
-    line-height: inherit;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+@mixin button-style {
+  background-color: $primary-color;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
+
+form {
+  @include flex-center;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  @include button-style;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+
+  li {
+    background: white;
+    margin: 10px 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+
+    &:hover {
+      background-color: $secondary-color;
+      color: white;
+    }
+  }
 }
