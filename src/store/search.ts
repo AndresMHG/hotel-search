@@ -57,7 +57,7 @@ export const useSearchStore = defineStore('search', {
     },
     async fetchHotels() {
       const response = hoteisData as Destino[]
-      // Teste
+      // Teste 2
       this.setResults(response);
     }
   },
