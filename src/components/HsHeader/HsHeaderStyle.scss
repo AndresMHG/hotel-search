@@ -8,19 +8,22 @@
     background-color: #FFF;
     justify-content: space-around;
     font-weight: 500;
-    font-size: 16px;
-    color: #01020a;
+    font-size: 14px;
+    line-height: 18px;
+    color: rgb(50, 58, 79);
     line-height: 28px;
     border-bottom: 1px solid #d5d6de;
 
     &-logo{
-       font-weight: 800;
+        font-size: 20px;
+        font-weight: 800;
+        color: #0e8bf2;
     }
 
     &-nav {
         display: flex;
         align-items: center;
-        gap: 1.25rem;
+        gap: 2.5rem;
     }
 
 }

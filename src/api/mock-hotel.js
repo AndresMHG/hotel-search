@@ -19,6 +19,19 @@ const cityList = [
   }
 ];
 
+const hotelImages = [
+  '/src/assets/img/hotel-1.jpg',
+  '/src/assets/img/hotel-2.jpg',
+  '/src/assets/img/hotel-3.jpg',
+  '/src/assets/img/hotel-4.jpg',
+  '/src/assets/img/hotel-5.jpg',
+  '/src/assets/img/hotel-6.jpg',
+  '/src/assets/img/hotel-7.jpg',
+  '/src/assets/img/hotel-8.jpg',
+  '/src/assets/img/hotel-9.jpg',
+  '/src/assets/img/hotel-10.jpg'
+];
+
 function generateRandomHotelName() {
   const prefixes = ["Grande", "Central", "Belvedere", "Estrela", "Palace", "Imperial", "Royal", "Mirante", "Pousada", "Praia"];
   const suffixes = ["Hotel", "Resort", "Inn", "Lodge", "Retreat", "Palace", "Suites", "Village", "Stay"];
@@ -50,6 +63,10 @@ function generateRandomDates(count) {
   return dates;
 }
 
+function getRandomImage() {
+  return hotelImages[Math.floor(Math.random() * hotelImages.length)];
+}
+
 const hoteisData = {
   "destinos": [
     {
@@ -66,7 +83,7 @@ const hoteisData = {
 };
 
 // Generar hoteles para Curitiba
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 10; i++) {
   const numero_quartos = Math.floor(Math.random() * (40 - 20 + 1)) + 20;
   const numero_maximo_hospedes = Math.floor(numero_quartos * (Math.random() * (1.5 - 1.1) + 1.1)); // Ajuste proporcional
 
@@ -77,12 +94,13 @@ for (let i = 0; i < 20; i++) {
     "preco": Math.floor(Math.random() * (300 - 150 + 1)) + 150,
     "numero_quartos": numero_quartos,
     "numero_maximo_hospedes": numero_maximo_hospedes,
-    "datas_disponiveis": generateRandomDates(10)
+    "datas_disponiveis": generateRandomDates(5),
+    "image": getRandomImage()
   });
 }
 
 // Generar hoteles para Rio de Janeiro
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 10; i++) {
   const numero_quartos = Math.floor(Math.random() * (45 - 25 + 1)) + 25;
   const numero_maximo_hospedes = Math.floor(numero_quartos * (Math.random() * (1.5 - 1.1) + 1.1)); // Ajuste proporcional
 
@@ -93,7 +111,8 @@ for (let i = 0; i < 20; i++) {
     "preco": Math.floor(Math.random() * (350 - 200 + 1)) + 200,
     "numero_quartos": numero_quartos,
     "numero_maximo_hospedes": numero_maximo_hospedes,
-    "datas_disponiveis": generateRandomDates(10)
+    "datas_disponiveis": generateRandomDates(5),
+    "image": getRandomImage()
   });
 }
 

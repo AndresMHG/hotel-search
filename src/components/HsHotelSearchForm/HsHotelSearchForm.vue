@@ -1,53 +1,61 @@
 <template>
-  <section>
-    <form @submit.prevent="search">
-      <input v-model="destination" placeholder="Destino" required />
-      <input type="date" v-model="checkIn" />
-      <input type="date" v-model="checkOut" />
-      <label>Quartos</label>
-      <input type="number" v-model="rooms" placeholder="Quartos" required min="1" />
-      <label>Huespedes</label>
-      <input type="number" v-model="guests" placeholder="Hóspede" required min="1" />
-      <button type="submit">Buscar</button>
+  <section class="hs-hotel-search-form">
+    <form @submit.prevent="search" class="hs-hotel-search-form--form">
+      <div class="hs-input-large">
+        <label>Destino</label>
+        <input v-model="destination" placeholder="Para onde?" required />
+      </div>
+      <div>
+        <label>Entrada</label>
+        <input type="date" v-model="checkIn" required />
+      </div>
+      <div>
+        <label>Saída</label>
+        <input type="date" v-model="checkOut" required/>
+      </div>
+      <div class="hs-input-small">
+        <label>Quartos</label>
+        <input type="number" v-model="rooms" placeholder="Quartos" required min="1" />
+      </div>
+      <div class="hs-input-small">
+        <label>Hóspedes</label>
+        <input type="number" v-model="guests" placeholder="Hóspedes" required min="1" />
+      </div>
+      <div class="hs-button">
+        <button type="submit" class="hs-hotel-search-form--form__button">
+          <hs-icon name="search" size="30"/>
+          Pesquisar
+        </button>
+      </div>
     </form>
   </section>
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref, inject } from 'vue';
 import { useSearchStore } from '../../store/search';
-import { useRouter } from 'vue-router';
+import HsIcon from '../HsIcon/HsIcon.vue'
 
-export default defineComponent({
-  setup() {
-    const destination = ref('');
-    const checkIn = ref('');
-    const checkOut = ref('');
-    const rooms = ref(1);
-    const guests = ref(1);
-    const router = useRouter();
-    const searchStore = useSearchStore();
+  const destination = ref('');
+  const checkIn = ref('');
+  const checkOut = ref('');
+  const rooms = ref(1);
+  const guests = ref(1);
+  const searchStore = useSearchStore();
+  const showResults = inject('showResults');
 
-    const search = () => {
-      searchStore.setSearchCriteria({
-        destination: destination.value,
-        checkIn: checkIn.value,
-        checkOut: checkOut.value,
-        rooms: rooms.value,
-        guests: guests.value
-      });
-      router.push({ name: 'search-results'});
-      searchStore.fetchHotels(); 
-    };
-
-    return {
-      destination,
-      checkIn,
-      checkOut,
-      rooms,
-      guests,
-      search
-    };
-  },
-});
+  const search = () => {
+    searchStore.setSearchCriteria({
+      destination: destination.value,
+      checkIn: checkIn.value,
+      checkOut: checkOut.value,
+      rooms: rooms.value,
+      guests: guests.value
+    });
+    searchStore.fetchHotels(); 
+    showResults.value = true;
+  }
 </script>
+<style lang="scss" scoped>
+@import './HsHotelSearchFormStyle.scss';
+</style>
 

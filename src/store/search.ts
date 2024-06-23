@@ -17,6 +17,7 @@ interface HotelData {
   numero_quartos: number;
   numero_maximo_hospedes: number;
   datas_disponiveis: string[];
+  image: string
 }
 
 interface Destino {
@@ -40,10 +41,12 @@ export const useSearchStore = defineStore('search', {
     availableCities: City[];
     criteria: SearchCriteria;
     results: Destino[];
+    originalResults: Destino[]; 
   } => ({
     availableCities: cityList,
     criteria: {} as SearchCriteria,
     results: [],
+    originalResults: []
   }),
   actions: {
     setAvalableCities(listCity: City[]) {
@@ -54,6 +57,7 @@ export const useSearchStore = defineStore('search', {
     },
     setResults(results: Destino[]) {
       this.results = results;
+      this.originalResults = results; 
     },
     async fetchHotels() {
       let filteredResults = hoteisData.destinos;
@@ -99,6 +103,32 @@ export const useSearchStore = defineStore('search', {
         });
         return { ...destino, hoteis: filteredHotels };
       }).filter(destino => destino.hoteis.length > 0);
+    },
+    filterByPriceAndRating(minPrice: number | null, maxPrice: number | null, minRating: number | null) {
+      let filteredResults = this.originalResults;
+
+      if (minPrice !== null) {
+        filteredResults = filteredResults.map(destino => {
+          const filteredHotels = destino.hoteis.filter(hotel => hotel.preco >= minPrice);
+          return { ...destino, hoteis: filteredHotels };
+        }).filter(destino => destino.hoteis.length > 0);
+      }
+
+      if (maxPrice !== null) {
+        filteredResults = filteredResults.map(destino => {
+          const filteredHotels = destino.hoteis.filter(hotel => hotel.preco <= maxPrice);
+          return { ...destino, hoteis: filteredHotels };
+        }).filter(destino => destino.hoteis.length > 0);
+      }
+
+      if (minRating !== null) {
+        filteredResults = filteredResults.map(destino => {
+          const filteredHotels = destino.hoteis.filter(hotel => hotel.avaliacao >= minRating);
+          return { ...destino, hoteis: filteredHotels };
+        }).filter(destino => destino.hoteis.length > 0);
+      }
+
+      this.setResults(filteredResults);
     }
   },
 });

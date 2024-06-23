@@ -1,0 +1,66 @@
+.hs-hotel-search-form {
+    display: flex;
+    align-items: center;
+   
+    &--form {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 10px 10px rgba(1, 1, 16, 0.2);
+        gap: 8px;
+        font-size: 14px;
+        line-height: 16px;
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 4px 0;
+            height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            color: rgb(2, 4, 19);
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f3f4f5;
+            }
+        }
+
+        &__button {
+            display: flex;
+            align-items: center;
+            background-color: #0e8bf2;
+            padding: 20px;
+            gap: 8px;
+            height: 40px;
+            color: #FFFF; 
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 20px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #3faff0;
+            }
+        }
+
+        .hs-input-large {
+            width: 250px;
+        }
+
+        .hs-input-small {
+            width: 70px;
+        }
+
+        .hs-button {
+            padding-top: 18px;
+        }
+    }
+}

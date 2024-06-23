@@ -1,9 +1,9 @@
 import HomeViews from '../views/HomeViews/HomeViews.vue'
-import SearchResults from '../views/SearchResults/SearchResults.vue'
+import ComparisonViews from '../views/ComparisonViews/ComparisonViews.vue'
 
 const routes = [
     { path: '/', name: 'home', component: HomeViews },
-    { path: '/search-results', name: 'search-results', component: SearchResults },
+    { path: '/comparison', name: 'comparison', component: ComparisonViews },
 ]
 
 export default routes;

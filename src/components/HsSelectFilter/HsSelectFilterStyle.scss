@@ -1,0 +1,64 @@
+.hs-select{
+    position: relative;
+    width: 200px;
+    font-size: 14px;
+    line-height: 18px;
+
+    &--label{
+        display: block;
+        color: #2E2F32;
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 700;
+        padding-bottom: 4px;
+
+    }
+
+    &--control{
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+        padding: 1rem;
+        height: 40px;
+        width: 100%;
+        background-color: #FFFF;
+        border: 1px solid #d5d6de;
+        border-radius: 24px;
+        cursor: pointer;
+    }
+
+    &--content{
+        position: absolute;
+        margin-top: 8px;
+        overflow-y: auto;
+        width: 100%;
+        max-height: 204px;
+        background-color: #FFFF;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        z-index: 20;
+        transition: transform 150ms ease-in-out;
+        
+        &__options{
+        cursor: pointer;
+        :hover{
+          background-color: #f3f4f5;  
+        }
+        p{
+          padding: 14px;
+        }
+		  }
+    }
+
+    .selectHide {
+		display: none;
+	  }
+
+	&--icon {
+		transition: transform 0.3s;
+	
+		&__rotate-180 {
+		  transform: rotate(180deg);
+		}
+	}
+}

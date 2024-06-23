@@ -4,6 +4,13 @@
   --tipo-principal: 'Open Sans', sans-serif;
   --tipo-secundaria: 'Roboto';
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
 svg {
     width: max-content;
     display: block;
@@ -19,17 +26,6 @@ body {
     line-height: inherit;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-$primary-color: #3498db;
-$secondary-color: #2ecc71;
-$text-color: #333;
-
-* {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    box-sizing: border-box;
 }
 
 img, picture, video, iframe, figure {
@@ -56,7 +52,7 @@ html {
     scroll-behavior: smooth;
 }
 
-h1, h2, h3, h4, h5, h6, p, span, a, strong, blockquote, i, b, u, em {
+h1, h2, h3, h4, h5, h6, p, span, a, blockquote, i, b, u, em {
     font-size: 1em;
     font-weight: inherit;
     font-style: inherit;
@@ -69,74 +65,4 @@ form, input, textarea, select, button, label {
     font-size: inherit;
     hyphens: auto;
     display: block;
-}
-
-// Mixins
-@mixin flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@mixin button-style {
-  background-color: $primary-color;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: darken($primary-color, 10%);
-  }
-}
-
-form {
-  @include flex-center;
-  flex-direction: column;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-button {
-  @include button-style;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-
-  li {
-    background: white;
-    margin: 10px 0;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-
-    &:hover {
-      background-color: $secondary-color;
-      color: white;
-    }
-  }
 }
