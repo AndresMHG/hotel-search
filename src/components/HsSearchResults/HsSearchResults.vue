@@ -24,12 +24,10 @@
             <span class="hs-search-results--content__name">{{ hotel.nome }}</span>
             <span>{{ hotel.endereco }}</span>
             <span class="hs-search-results--content--star">
-              <template v-for="n in 5" >
-                <hs-icon
-                  :name="n <= hotel.avaliacao ? 'star' : 'star_border'"
-                />
+              <template v-for="n in 5">
+                <hs-icon :name="n <= hotel.avaliacao ? 'star' : 'star_border'" />
               </template>
-              <strong>{{ hotel.avaliacao }}</strong> 
+              <strong>{{ hotel.avaliacao }}</strong>
             </span>
             <div class="hs-search-results--content__description">
               <span>{{ hotel.numero_quartos }}<strong> Quartos</strong></span>
@@ -47,87 +45,102 @@
             >
               {{ isSelectedHotel(hotel) ? 'Selecionado' : 'Comparação de Ofertas' }}
             </button>
-            <button type="button" class="hs-search-results--content__btn-reserve">Reserva</button>
+            <button type="button" class="hs-search-results--content__btn-reserve" @click="openModal(hotel)">Reserva</button>
           </div>
         </div>
       </div>
     </div>
+    <Modal :isVisible="showModal" @update:isVisible="showModal = $event">
+      <template #header>
+        <h3>Reserva {{ selectedHotel?.nome }}</h3>
+      </template>
+      <template #body>
+        <Card :data="selectedHotel" />
+        <DataReservation :data="selectedHotel?.datas_disponiveis" @reservation-success="handleReservationSuccess" />
+      </template>
+    </Modal>
   </section>
 </template>
-<script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+
+<script setup lang="ts">
+import { ref, watch } from 'vue';
 import { useSearchStore } from '../../store/search';
 import HsSelectFilter from '../HsSelectFilter/HsSelectFilter.vue';
+import Card from '../Card/index.vue';
+import Modal from '../Modal/Modal.vue';
+import DataReservation from '../DataReservation/DataReservation.vue';
 import HsIcon from '../HsIcon/HsIcon.vue';
 import { useRouter } from 'vue-router';
 
-export default defineComponent({
-  components: {
-    HsSelectFilter,
-    HsIcon,
-  },
-  setup() {
-    const searchStore = useSearchStore();
-    searchStore.fetchHotels();
-    const selectedOption = ref(null);
-    const selectedHotels = ref([]);
-    const showComparison = ref(false);
-    const router = useRouter();
+const showModal = ref(false);
+const selectedHotel = ref(null);
+const searchStore = useSearchStore();
+searchStore.fetchHotels();
+const selectedOption = ref(null);
+const selectedHotels = ref([]);
+const showComparison = ref(false);
+const router = useRouter();
 
-    const options = [
-      { name: 'Preço (mais barato)', value: 'priceLow' },
-      { name: 'Preço (mais caro)', value: 'priceHigh' },
-      { name: 'Melhores avaliações', value: 'rating' },
-    ];
+const handleReservationSuccess = () => {
+  showModal.value = false;
+};
 
-    watch(selectedOption, (newOption) => {
-      if (newOption) {
-        sortResults(newOption.value);
-      }
-    });
+const options = [
+  { name: 'Preço (mais barato)', value: 'priceLow' },
+  { name: 'Preço (mais caro)', value: 'priceHigh' },
+  { name: 'Melhores avaliações', value: 'rating' },
+];
 
-    const sortResults = (option) => {
-      switch (option) {
-        case 'priceLow':
-          searchStore.results.forEach(destino => {
-            destino.hoteis.sort((a, b) => a.preco - b.preco);
-          });
-          break;
-        case 'priceHigh':
-          searchStore.results.forEach(destino => {
-            destino.hoteis.sort((a, b) => b.preco - a.preco);
-          });
-          break;
-        case 'rating':
-          searchStore.results.forEach(destino => {
-            destino.hoteis.sort((a, b) => b.avaliacao - a.avaliacao);
-          });
-          break;
-      }
-    };
-
-    const toggleSelectedHotel = (destino, hotel) => {
-      const index = selectedHotels.value.findIndex(h => h.nome === hotel.nome);
-      if (index === -1) {
-        selectedHotels.value.push(hotel);
-      } else {
-        selectedHotels.value.splice(index, 1);
-      }
-      showComparison.value = selectedHotels.value.length > 0;
-      if (showComparison.value) {
-        localStorage.setItem('selectedHotels', JSON.stringify(selectedHotels.value));
-        router.push({ name: 'comparison' });
-      }
-    };
-
-    const isSelectedHotel = (hotel) => {
-      return selectedHotels.value.some(h => h.nome === hotel.nome);
-    };
-
-    return { searchStore, options, selectedOption, sortResults, toggleSelectedHotel, isSelectedHotel, selectedHotels, showComparison };
-  },
+watch(selectedOption, (newOption) => {
+  if (newOption) {
+    sortResults(newOption.value);
+  }
 });
+
+const sortResults = (option) => {
+  switch (option) {
+    case 'priceLow':
+      searchStore.results.forEach((destino) => {
+        destino.hoteis.sort((a, b) => a.preco - b.preco);
+      });
+      break;
+    case 'priceHigh':
+      searchStore.results.forEach((destino) => {
+        destino.hoteis.sort((a, b) => b.preco - a.preco);
+      });
+      break;
+    case 'rating':
+      searchStore.results.forEach((destino) => {
+        destino.hoteis.sort((a, b) => b.avaliacao - a.avaliacao);
+      });
+      break;
+  }
+};
+
+const toggleSelectedHotel = (destino, hotel) => {
+  const index = selectedHotels.value.findIndex((h) => h.nome === hotel.nome);
+  if (index === -1) {
+    selectedHotels.value.push(hotel);
+  } else {
+    selectedHotels.value.splice(index, 1);
+  }
+  showComparison.value = selectedHotels.value.length > 0;
+  if (showComparison.value) {
+    localStorage.setItem('selectedHotels', JSON.stringify(selectedHotels.value));
+    /* router.push({ name: 'comparison' }); */
+  }
+};
+
+const isSelectedHotel = (hotel) => {
+  return selectedHotels.value.some((h) => h.nome === hotel.nome);
+};
+
+const openModal = (hotel) => {
+  selectedHotel.value = hotel;
+  showModal.value = true;
+};
 </script>
+
 <style lang="scss" scoped>
 @import './HsSearchResultStyle.scss';
 </style>
