@@ -78,7 +78,7 @@ const handleSubmit = () => {
 .form-container {
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
   background-color: #fff;
   border-radius: 8px;
 }
