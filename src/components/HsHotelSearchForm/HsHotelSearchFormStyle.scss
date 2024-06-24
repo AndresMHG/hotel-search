@@ -1,7 +1,7 @@
 .hs-hotel-search-form {
     display: flex;
     align-items: center;
-   
+
     &--form {
         display: flex;
         align-items: center;
@@ -30,6 +30,10 @@
             &:hover {
                 background-color: #f3f4f5;
             }
+
+            &.is-invalid {
+                border-color: red;
+            }
         }
 
         &__button {
@@ -39,7 +43,7 @@
             padding: 20px;
             gap: 8px;
             height: 40px;
-            color: #FFFF; 
+            color: #FFFF;
             border-radius: 8px;
             font-weight: 600;
             font-size: 16px;
